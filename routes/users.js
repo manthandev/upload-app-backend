@@ -4,8 +4,13 @@ const bodyParser = require('body-parser');
 var User = require('../models/user');
 var passport = require('passport');
 var authenticate = require('../authenticate');
+const cors = require('./cors');
 
-
+/* GET users listing. */
+router.options('*', cors.corsWithOptions, (req, res) => { res.sendStatus(200); } )
+.get('/', function(req, res, next) {
+  res.send('respond with a resource');
+});
 router.post('/signup', cors.corsWithOptions, (req, res, next) => {
   User.register(new User({username: req.body.username}), 
     req.body.password, (err, user) => {
